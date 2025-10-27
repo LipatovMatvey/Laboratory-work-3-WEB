@@ -2,7 +2,7 @@ package laba_3;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MyException {
+public class InputCheck {
     /**
      * Регулярное выражение для типа int
      */

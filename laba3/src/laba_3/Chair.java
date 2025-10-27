@@ -81,21 +81,20 @@ public class Chair extends Furniture {
     /**
      * Метод изменения поля экземпляра класса
      * @param name Поле name объекта
-     * @param type Класс объекта
      * @param newAttribute Новое значение поля
      * @param field Название изменяемого поля
      * @return Сообщение об изменении поля
      */
     @Override
-    public String editFild(String name, String type, String newAttribute, String field) {
-        Furniture furniture = findFurniture(name, type);
+    public String editField(String name, String newAttribute, String field) {
+        Furniture furniture = findFurniture(name);
         if(furniture != null) {
-            switch (field){
-                case "Тип стула" -> ((Chair) furniture).setType(MyException.checkString(newAttribute));
-                case "Наличие подлокотников" -> ((Chair) furniture).setHasArmrest(MyException.checkBoolean(newAttribute));
-                case "Максимальная нагрузка" -> ((Chair) furniture).setMaxLoad(MyException.checkInt(newAttribute));
+            switch (field) {
+                case "Тип стула" -> ((Chair) furniture).setType(InputCheck.checkString(newAttribute));
+                case "Наличие подлокотников" -> ((Chair) furniture).setHasArmrest(InputCheck.checkBoolean(newAttribute));
+                case "Максимальная нагрузка" -> ((Chair) furniture).setMaxLoad(InputCheck.checkInt(newAttribute));
                 default -> {
-                    return super.editFild(name, type, newAttribute, field);
+                    return super.editField(name, newAttribute, field);
                 }
             }
             return "Выбранное вами поле изменено: " + "\n" + ((Chair) furniture).printFields();
@@ -104,5 +103,16 @@ public class Chair extends Furniture {
             return("Такого объекта не существует");
         }
     }
-}
 
+    /**
+     * Метод вывода полей объекта для пользователя
+     * @return Строка с полями объекта
+     */
+    @Override
+    public String printFieldsNull() {
+        return super.printFieldsNull() +
+                "Тип(6): " + "\n" +
+                "Наличие подлокотников(7): " + "\n" +
+                "Максимальная нагрузка(8): " + "\n";
+    }
+}

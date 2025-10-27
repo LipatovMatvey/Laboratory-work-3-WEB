@@ -149,11 +149,8 @@ abstract public class Furniture {
                     count++;
                 }
             }
-            return String.valueOf(count);
         }
-        else {
-            return String.valueOf(count);
-        }
+        return String.valueOf(count);
     }
 
     /**
@@ -161,32 +158,41 @@ abstract public class Furniture {
      * @param name Имя объекта
      * @return объект, иначе - null
      */
-    protected static Furniture findFurniture(String name, String type) {
+    protected static Furniture findFurniture(String name) {
         for(Furniture f : list) {
-            if (f.name.equals(name) && f.getClass().getSimpleName().equals(type)) {
+            if (f.name.equals(name)) {
                 return f;
             }
         }
         return null;
     }
 
+    protected static String objectType(String name) {
+        for(Furniture f : list) {
+            if (f.name.equals(name)) {
+                return f.getClass().getSimpleName();
+            }
+        }
+        return null;
+    }
+
+
     /**
      * Метод изменения поля экземпляра класса
      * @param name Поле name объекта
-     * @param type Класс объекта
      * @param newAttribute Новое значение поля
      * @param field Название изменяемого поля
      * @return Сообщение об изменении поля
      */
-    public String editFild(String name, String type, String newAttribute, String field) {
-        Furniture furniture = findFurniture(name, type);
+    public String editField(String name, String newAttribute, String field) {
+        Furniture furniture = findFurniture(name);
         if(furniture != null) {
             switch (field){
-                case "Высота" -> furniture.setHeight(MyException.checkInt(newAttribute));
-                case "Ширина" -> furniture.setWidth(MyException.checkInt(newAttribute));
-                case "Глубина" -> furniture.setDepth(MyException.checkInt(newAttribute));
-                case "Вес" -> furniture.setWeight(MyException.checkInt(newAttribute));
-                case "Имя" -> furniture.setName(MyException.checkString(newAttribute));
+                case "Высота" -> furniture.setHeight(InputCheck.checkInt(newAttribute));
+                case "Ширина" -> furniture.setWidth(InputCheck.checkInt(newAttribute));
+                case "Глубина" -> furniture.setDepth(InputCheck.checkInt(newAttribute));
+                case "Вес" -> furniture.setWeight(InputCheck.checkInt(newAttribute));
+                case "Имя" -> furniture.setName(InputCheck.checkString(newAttribute));
                 default -> {
                     return "Вы ввели несуществующее поле класса";
                 }
@@ -206,6 +212,10 @@ abstract public class Furniture {
         return list;
     }
 
+    /**
+     * Метод вывода габаритов объектов списка
+     * @return Строка габаритов объекта
+     */
     public static String printSizeObjects() {
         String resultString = "";
         if (!list.isEmpty()){
@@ -245,5 +255,17 @@ abstract public class Furniture {
         new Table(111, 222, 333, 40, "Стол2", 4, "Прямоугольный", true);
         new Chair(50, 70, 66, 10, "Стул1", "Трон", true, 150);
         new Chair(55, 77, 61, 7, "Стул2", "Игровой", true, 130);
+    }
+
+    /**
+     * Метод вывода полей объекта для пользователя
+     * @return Строка с полями объекта
+     */
+    public String printFieldsNull(){
+        return "Высота(1): " + "\n" +
+                "Ширина(2): " + "\n" +
+                "Глубина(3): " + "\n" +
+                "Вес(4): " + "\n" +
+                "Имя(5): " + "\n";
     }
 }

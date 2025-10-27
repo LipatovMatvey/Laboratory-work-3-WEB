@@ -81,21 +81,20 @@ public class Table extends Furniture {
     /**
      * Метод изменения поля экземпляра класса
      * @param name Поле name объекта
-     * @param type Класс объекта
      * @param newAttribute Новое значение поля
      * @param field Название изменяемого поля
      * @return Сообщение об изменении поля
      */
     @Override
-    public String editFild(String name, String type, String newAttribute, String field) {
-        Furniture furniture = findFurniture(name, type);
+    public String editField(String name, String newAttribute, String field) {
+        Furniture furniture = findFurniture(name);
         if(furniture != null) {
             switch (field){
-                case "Количество ножек" -> ((Table) furniture).setLegsCount(MyException.checkInt(newAttribute));
-                case "Форма" -> ((Table) furniture).setShape(MyException.checkString(newAttribute));
-                case "Наличие ящиков" -> ((Table) furniture).setHasDrawers(MyException.checkBoolean(newAttribute));
+                case "Количество ножек" -> ((Table) furniture).setLegsCount(InputCheck.checkInt(newAttribute));
+                case "Форма" -> ((Table) furniture).setShape(InputCheck.checkString(newAttribute));
+                case "Наличие ящиков" -> ((Table) furniture).setHasDrawers(InputCheck.checkBoolean(newAttribute));
                 default -> {
-                    return super.editFild(name, type, newAttribute, field);
+                    return super.editField(name, newAttribute, field);
                 }
             }
             return "Выбранное вами поле изменено: " + "\n" + ((Table) furniture).printFields();
@@ -104,5 +103,16 @@ public class Table extends Furniture {
             return("Такого объекта не существует");
         }
     }
-}
 
+    /**
+     * Метод вывода полей объекта для пользователя
+     * @return Строка с полями объекта
+     */
+    @Override
+    public String printFieldsNull() {
+        return super.printFieldsNull() +
+                "Количество ножек(6): " + "\n" +
+                "Форма(7): " + "\n" +
+                "Наличие ящиков(8): " + "\n";
+    }
+}

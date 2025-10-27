@@ -49,21 +49,21 @@ public class UI {
         try{
             System.out.println("Создание стула:");
             System.out.print("Высота: ");
-            int h = MyException.checkInt(in.nextLine().trim());
+            int h = InputCheck.checkInt(in.nextLine().trim());
             System.out.print("Ширина: ");
-            int w = MyException.checkInt(in.nextLine().trim());
+            int w = InputCheck.checkInt(in.nextLine().trim());
             System.out.print("Глубина: ");
-            int d = MyException.checkInt(in.nextLine().trim());
+            int d = InputCheck.checkInt(in.nextLine().trim());
             System.out.print("Вес: ");
-            int weight = MyException.checkInt(in.nextLine().trim());
+            int weight = InputCheck.checkInt(in.nextLine().trim());
             System.out.print("Имя: ");
-            String name = MyException.checkString(in.nextLine().trim());
+            String name = InputCheck.checkString(in.nextLine().trim());
             System.out.print("Тип: ");
-            String type = MyException.checkString(in.nextLine().trim());
+            String type = InputCheck.checkString(in.nextLine().trim());
             System.out.print("Есть ли подлокотники (true/false): ");
-            boolean arms = MyException.checkBoolean(in.nextLine().trim());
+            boolean arms = InputCheck.checkBoolean(in.nextLine().trim());
             System.out.print("Максимальная нагрузка: ");
-            int load = MyException.checkInt(in.nextLine().trim());
+            int load = InputCheck.checkInt(in.nextLine().trim());
 
             new Chair(h, w, d, weight, name, type, arms, load);
             System.out.println("Стул создан и добавлен в список!");
@@ -80,21 +80,21 @@ public class UI {
         try{
             System.out.println("Создание стола:");
             System.out.print("Высота: ");
-            int h = MyException.checkInt(in.nextLine().trim());
+            int h = InputCheck.checkInt(in.nextLine().trim());
             System.out.print("Ширина: ");
-            int w = MyException.checkInt(in.nextLine().trim());
+            int w = InputCheck.checkInt(in.nextLine().trim());
             System.out.print("Глубина: ");
-            int d = MyException.checkInt(in.nextLine().trim());
+            int d = InputCheck.checkInt(in.nextLine().trim());
             System.out.print("Вес: ");
-            int weight = MyException.checkInt(in.nextLine().trim());
+            int weight = InputCheck.checkInt(in.nextLine().trim());
             System.out.print("Имя: ");
-            String name = MyException.checkString(in.nextLine().trim());
+            String name = InputCheck.checkString(in.nextLine().trim());
             System.out.print("Количество ножек: ");
-            int legs = MyException.checkInt(in.nextLine().trim());
+            int legs = InputCheck.checkInt(in.nextLine().trim());
             System.out.print("Форма: ");
-            String shape = MyException.checkString(in.nextLine().trim());
+            String shape = InputCheck.checkString(in.nextLine().trim());
             System.out.print("Есть ящики (true/false): ");
-            boolean drawers = MyException.checkBoolean(in.nextLine().trim());
+            boolean drawers = InputCheck.checkBoolean(in.nextLine().trim());
 
             new Table(h, w, d, weight, name, legs, shape, drawers);
             System.out.println("Стол создан и добавлен в список!");
@@ -104,65 +104,54 @@ public class UI {
         }
     }
 
-
     /**
-     * Метод изменения веса стола
+     * Метод изменения поля объекта
      */
     private void editAttribute() {
         try{
-            System.out.print("Введите название класса, поле объекта которого вы хотите изменить (Chair/Table): ");
-            String nameClass = MyException.checkString(in.nextLine().trim());
-            System.out.print("Введите имя экземпляра данного класса для изменения: ");
-            String name = MyException.checkString(in.nextLine().trim());
+            System.out.print("Введите имя объекта, поле которого вы хотите изменить: ");
+            String name = InputCheck.checkString(in.nextLine().trim());
 
-            Furniture furniture = Furniture.findFurniture(name, nameClass);
-            if(furniture != null){
-                if (nameClass.equals("Chair")){
-                    System.out.print("НАПОМИНАНИЕ: поля выбранного класса: \nВысота(1) \nШирина(2) \nГлубина(3) \nВес(4)" +
-                            " \nТип стула(5) \nНаличие подлокотников(6) \nМаксимальная нагрузка(7)\nИмя(8) \n");
-                    System.out.println("Введите номер поля, которое хотите изменить:");
-                    String input = in.nextLine();
-                    System.out.println("Введите новое значение поля:");
-                    String newAttribute = in.nextLine();
+            Furniture furniture = Furniture.findFurniture(name);
+            String objectType = Furniture.objectType(name);
 
+            if(furniture != null) {
+                System.out.println("Поля, доступные к изменению: ");
+                System.out.println(furniture.printFieldsNull());
+                System.out.print("Введите номер изменяемого поля: ");
+                String input = in.nextLine().trim();
+                System.out.print("Введите новое значение поля: ");
+                String newAttribute = in.nextLine().trim();
+
+                if (objectType.equals("Chair")) {
                     switch (input) {
-                        case "1" -> System.out.println(furniture.editFild(name, nameClass, newAttribute, "Высота"));
-                        case "2" -> System.out.println(furniture.editFild(name, nameClass, newAttribute, "Ширина"));
-                        case "3" -> System.out.println(furniture.editFild(name, nameClass, newAttribute, "Глубина"));
-                        case "4" -> System.out.println(furniture.editFild(name, nameClass, newAttribute, "Вес"));
-                        case "5" -> System.out.println(furniture.editFild(name, nameClass, newAttribute, "Тип стула"));
-                        case "6" -> System.out.println(furniture.editFild(name, nameClass, newAttribute, "Наличие подлокотников"));
-                        case "7" -> System.out.println(furniture.editFild(name, nameClass, newAttribute, "Максимальная нагрузка"));
-                        case "8" -> System.out.println(furniture.editFild(name, nameClass, newAttribute, "Имя"));
-                        default -> System.out.println("Неверная команда.");
-                    }
-                }
-                else if (nameClass.equals("Table")){
-                    System.out.print("НАПОМИНАНИЕ: поля выбранного класса: \nВысота(1) \nШирина(2) \nГлубина(3) \nВес(4)" +
-                            " \nКоличество ножек(5) \nФорма(6) \nНаличие ящиков(7)\nИмя(8) \n");
-                    System.out.println("Введите номер поля, которое хотите изменить:");
-                    String input = in.nextLine();
-                    System.out.println("Введите новое значение поля:");
-                    String newAttribute = in.nextLine();
-
-                    switch (input) {
-                        case "1" -> System.out.println(furniture.editFild(name, nameClass, newAttribute, "Высота"));
-                        case "2" -> System.out.println(furniture.editFild(name, nameClass, newAttribute, "Ширина"));
-                        case "3" -> System.out.println(furniture.editFild(name, nameClass, newAttribute, "Глубина"));
-                        case "4" -> System.out.println(furniture.editFild(name, nameClass, newAttribute, "Вес"));
-                        case "5" -> System.out.println(furniture.editFild(name, nameClass, newAttribute, "Количество ножек"));
-                        case "6" -> System.out.println(furniture.editFild(name, nameClass, newAttribute, "Форма"));
-                        case "7" -> System.out.println(furniture.editFild(name, nameClass, newAttribute, "Наличие ящиков"));
-                        case "8" -> System.out.println(furniture.editFild(name, nameClass, newAttribute, "Имя"));
-                        default -> System.out.println("Неверная команда.");
+                        case "1" -> System.out.println(furniture.editField(name, newAttribute, "Высота"));
+                        case "2" -> System.out.println(furniture.editField(name, newAttribute, "Ширина"));
+                        case "3" -> System.out.println(furniture.editField(name, newAttribute, "Глубина"));
+                        case "4" -> System.out.println(furniture.editField(name, newAttribute, "Вес"));
+                        case "5" -> System.out.println(furniture.editField(name, newAttribute, "Имя"));
+                        case "6" -> System.out.println(furniture.editField(name, newAttribute, "Тип стула"));
+                        case "7" -> System.out.println(furniture.editField(name, newAttribute, "Наличие подлокотников"));
+                        case "8" -> System.out.println(furniture.editField(name, newAttribute, "Максимальная нагрузка"));
+                        default -> System.out.println("Неверный номер изменяемого поля.");
                     }
                 }
                 else {
-                    System.out.println("Неверное имя класса!");
+                    switch (input) {
+                        case "1" -> System.out.println(furniture.editField(name, newAttribute, "Высота"));
+                        case "2" -> System.out.println(furniture.editField(name, newAttribute, "Ширина"));
+                        case "3" -> System.out.println(furniture.editField(name, newAttribute, "Глубина"));
+                        case "4" -> System.out.println(furniture.editField(name, newAttribute, "Вес"));
+                        case "5" -> System.out.println(furniture.editField(name, newAttribute, "Имя"));
+                        case "6" -> System.out.println(furniture.editField(name, newAttribute, "Количество ножек"));
+                        case "7" -> System.out.println(furniture.editField(name, newAttribute, "Форма"));
+                        case "8" -> System.out.println(furniture.editField(name, newAttribute, "Наличие ящиков"));
+                        default -> System.out.println("Неверная команда.");
+                    }
                 }
             }
             else {
-                System.out.println("Объект не найден!");
+                System.out.println("Объекта с таким именем не существует!");
             }
         }
         catch (Error error) {
@@ -170,9 +159,8 @@ public class UI {
         }
     }
 
-
     /**
-     * Метод вывода габаритных размеров объектов списка
+     * Метод вывода габаритов объектов списка
      */
     private void printObjectsSize() {
         System.out.println(Furniture.printSizeObjects());
@@ -182,7 +170,7 @@ public class UI {
      * Метод вывода объектов списка
      */
     private void printList() {
-        System.out.println(Furniture.printList());
+        System.out.print(Furniture.printList());
     }
 
     /**
@@ -202,6 +190,5 @@ public class UI {
      */
     private void createDefaultObjects() {
         Furniture.defaultObjects();
-        System.out.println("Заполнили список дефолтными объектами!");
     }
 }
